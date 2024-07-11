@@ -24,12 +24,14 @@ public class MovieServlet extends HttpServlet {
         String pathInfo = req.getPathInfo();
 
         try {
+            //getallmovies solo trae las habilitadas
             if (pathInfo == null || pathInfo.equals("/")) {
                 List<Movie> movies = movieService.getAllAvailableMovies();
                 String json = objectMapper.writeValueAsString(movies);
                 resp.setContentType("application/json");
                 resp.getWriter().write(json);
                 resp.setStatus(HttpServletResponse.SC_ACCEPTED);
+                //getallmovies las borradas logicas y las habilitadas
             } else if (pathInfo.equals("/not-available")) {
                 List<Movie> movies = movieService.getAllMovies();
                 String json = objectMapper.writeValueAsString(movies);
@@ -37,6 +39,7 @@ public class MovieServlet extends HttpServlet {
                 resp.getWriter().write(json);
                 resp.setStatus(HttpServletResponse.SC_ACCEPTED);
             } else {
+                //getById
                 String[] pathParts = pathInfo.split("/");
                 if (pathParts.length > 1) {
                     int id = Integer.parseInt(pathParts[1]);
